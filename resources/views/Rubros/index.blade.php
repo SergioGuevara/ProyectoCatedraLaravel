@@ -18,6 +18,7 @@
         <tr>
             <td>{{$rubro->idrubro}}</td>
             <td>{{$rubro->Rubro}}</td>
+            
         </tr>
         @endforeach
     </table>    
