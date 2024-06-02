@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class CuponesControllerApi extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $cupones=DB::table('cupones')->get();
@@ -41,12 +38,12 @@ class CuponesControllerApi extends Controller
         $cupones=DB::table('ofertas')
         ->join('cupones','cupones.idoferta','=','ofertas.idoferta')
         ->join('estados_cupones','estados_cupones.idestado','=','cupones.idestado')
-        ->join('clientes','clientes.idcliente','=','cupones.idcliente')
-        ->select('cupones.idcupon','clientes.dui','titulo','precio_regular','precio_oferta','fecha_caducidad','descripcion','estados_cupones.estado')
+        ->select('cupones.idcupon','titulo','precio_regular','precio_oferta','fecha_caducidad','descripcion','estados_cupones.estado')
         ->where('idcupon',$id)
         ->get();
         return $cupones;
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -77,4 +74,5 @@ class CuponesControllerApi extends Controller
     {
         //
     }
+
 }

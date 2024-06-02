@@ -32,28 +32,32 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 mb-3">
-                    <label for="nombreEmpresa" class="form-label">Nombre de contacto</label>
+                <div class="col-3 mb-3">
+                    <label for="nameContacto" class="form-label">Nombre de contacto</label>
                     <input type="text" class="form-control" name="nameContacto" >
                 </div>
-                <div class="col-4 mb-3">
-                    <label for="direcEmpresa" class="form-label">Telefono</label>
-                    <input type="text" class="form-control" name="telContacto">
+                <div class="col-3 mb-3">
+                    <label for="lastnameContacto" class="form-label">Apellido de contacto</label>
+                    <input type="text" class="form-control" name="lastnameContacto" >
                 </div>
-                <div class="col-4 mb-3">
-                    <label for="direcEmpresa" class="form-label">Correo</label>
+                <div class="col-3 mb-3">
+                    <label for="telContacto" class="form-label">Telefono</label>
+                    <input type="number" class="form-control" name="telContacto">
+                </div>
+                <div class="col-3 mb-3">
+                    <label for="mailContacto" class="form-label">Correo</label>
                     <input type="email" class="form-control" name="mailContacto">
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 mb-3">
-                    <label for="nombreEmpresa" class="form-label">Rubro</label>
-                    <select id="rubroEmpresa" name="rubroEmpresa" class="form-control">
-                        @foreach($rubros as $rubro)
-                        <option value="{{$rubro->Rubro}}" >{{$rubro->Rubro}}</option>
-                        @endforeach
-                    </select>
-                </div>
+            <div class="col-6 mb-3">
+                <label for="nombreEmpresa" class="form-label">Rubro</label>
+                <select id="rubroEmpresa" name="rubroEmpresa" class="form-control">
+                @foreach($rubros as $rubro)
+                <option value="{{$rubro->Rubro}}" >{{$rubro->Rubro}}</option>
+                @endforeach 
+                </select>
+            </div>
                 <div class="col-2 mb-3">
                     <label for="direcEmpresa" class="form-label">% de comisión</label>
                     <input type="text" class="form-control" name="comisionEmpresa">

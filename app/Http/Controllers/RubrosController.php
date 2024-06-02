@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Rubro;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 
 class RubrosController extends Controller
 {
@@ -23,11 +25,10 @@ class RubrosController extends Controller
      */
     public function create()
     {
+            $viewBag=array();
 
-        $viewBag=array();
-
-        $viewBag['rubros']=Rubro::all();
-        return view('Rubros.create',$viewBag);
+            $viewBag['rubros']=Rubro::all();
+            return view('Rubros.create',$viewBag);
     }
 
     /**
@@ -35,23 +36,33 @@ class RubrosController extends Controller
      */
     public function store(Request $request, )
     {
-        $nombreRubro = $request->input('nombreRubro');
-        $existeRubro = Rubro::where('Rubro',$nombreRubro)->exists();
+        $validator = Validator::make($request->all(), [
+            'nombreRubro' => 'required|max:255',
+        ]);
 
-        if($existeRubro){
-            $viewBag=array();
-            $viewBag['rubros']=DB::table('rubros')->get();
-            return view('Rubros.index',$viewBag);
-        }
-        else{
-            $rubro = new Rubro();
-            $rubro->Rubro = $request->input('nombreRubro');
-            $rubro->save();
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return redirect('rubros/create')->withErrors($validator)->withInput();
 
-            // Redireccionar a una página de éxito o mostrar un mensaje de confirmación
-            $viewBag=array();
-            $viewBag['rubros']=DB::table('rubros')->get();
-            return view('Rubros.index',$viewBag);
+        } else {
+            $nombreRubro = $request->input('nombreRubro');
+            $existeRubro = Rubro::where('Rubro',$nombreRubro)->exists();
+
+            if($existeRubro){
+                $viewBag=array();
+                $viewBag['rubros']=DB::table('rubros')->get();
+                return view('Rubros.index',$viewBag);
+            }
+            else{
+                $rubro = new Rubro();
+                $rubro->Rubro = $request->input('nombreRubro');
+                $rubro->save();
+
+                // Redireccionar a una página de éxito o mostrar un mensaje de confirmación
+                $viewBag=array();
+                $viewBag['rubros']=DB::table('rubros')->get();
+                return view('Rubros.index',$viewBag);
+            }
         }
 
     }
@@ -70,23 +81,33 @@ class RubrosController extends Controller
     
     public function update(Request $request, string $id)
     {
-        $rubro = Rubro::findOrFail($id);
-        $nombreRubro = $request->input('nombreRubro');
+        $validator = Validator::make($request->all(), [
+            'nombreRubro' => 'required|max:255',
+        ]);
 
-        $existeRubro = Rubro::where('Rubro',$nombreRubro)->where('idrubro', '!=', $id)->exists();
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return redirect('rubros/create')->withErrors($validator)->withInput();
 
-        if($existeRubro){
-            $viewBag=array();
-            $viewBag['rubros']=DB::table('rubros')->get();
-            return view('Rubros.index',$viewBag);
-        }
-        else{
-            $rubro->Rubro = $nombreRubro;
-            $rubro->save();
+        } else {
+            $rubro = Rubro::findOrFail($id);
+            $nombreRubro = $request->input('nombreRubro');
 
-            $viewBag=array();
-            $viewBag['rubros']=DB::table('rubros')->get();
-            return view('Rubros.index',$viewBag);
+            $existeRubro = Rubro::where('Rubro',$nombreRubro)->where('idrubro', '!=', $id)->exists();
+
+            if($existeRubro){
+                $viewBag=array();
+                $viewBag['rubros']=DB::table('rubros')->get();
+                return view('Rubros.index',$viewBag);
+            }
+            else{
+                $rubro->Rubro = $nombreRubro;
+                $rubro->save();
+
+                $viewBag=array();
+                $viewBag['rubros']=DB::table('rubros')->get();
+                return view('Rubros.index',$viewBag);
+            }
         }
     }
 

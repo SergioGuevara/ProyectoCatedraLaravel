@@ -2,6 +2,10 @@
 @section('title','Lista de empresa')
 @section('content')
 @csrf
+
+@if (session('success'))
+<div class="alert alert-success">{{ session('success') }}</div>
+@endif
     @if($empresas)
     <table class="table table-bordered">
         <tr class="table-dark">
@@ -71,25 +75,25 @@
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label for="direcEmpresa" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" name="direcEmpresa" value="{{$empresa->direccion}}">
+                            <input type="text" class="form-control" name="direcEmpresa" value="{{$empresa->direccion}}" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="nombreEmpresa" class="form-label">Comisión de la Empresa</label>
-                            <input type="text" class="form-control" name="comisionEmpresa" value="{{$empresa->comision}}">
+                            <input type="text" class="form-control" name="comisionEmpresa" value="{{$empresa->comision}}" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 mb-3">
                             <label for="nombreEmpresa" class="form-label">Nombre de contacto</label>
-                            <input type="text" class="form-control" name="nameContacto" id="nameContacto" value="{{$empresa->Nombre}}" >
+                            <input type="text" class="form-control" name="nameContacto" id="nameContacto" value="{{$empresa->Nombre}}" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="direcEmpresa" class="form-label">Telefono</label>
-                            <input type="text" class="form-control" name="telContacto" value="{{$empresa->Telefono}}" >
+                            <input type="text" class="form-control" name="telContacto" value="{{$empresa->Telefono}}" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="direcEmpresa" class="form-label">Correo</label>
-                            <input type="email" class="form-control" name="mailContacto" value="{{$empresa->Correo}}" >
+                            <input type="email" class="form-control" name="mailContacto" value="{{$empresa->Correo}}" required>
                         </div>
                     </div>
                     

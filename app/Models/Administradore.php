@@ -40,6 +40,7 @@ class Administradore extends Model
 
 	protected $fillable = [
 		'Nombre',
+		'Apellido',
 		'Telefono',
 		'Correo',
 		'Dui',

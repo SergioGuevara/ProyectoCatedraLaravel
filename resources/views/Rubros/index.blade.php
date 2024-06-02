@@ -48,7 +48,7 @@
             <div class="modal-body">
 
             <form action="{{ route('rubros.update', $rubro->idrubro) }}" method="POST">
-                <input type="text" class="form-control" name="nombreRubro" id="nombreRubro" value="{{$rubro->Rubro}}">
+                <input type="text" class="form-control" name="nombreRubro" id="nombreRubro" value="{{$rubro->Rubro}}" required>
 
             </div>
             <div class="modal-footer">
