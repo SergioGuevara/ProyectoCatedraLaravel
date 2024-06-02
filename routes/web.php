@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\RubrosController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RubrosController;
+use App\Http\Controllers\GestionClientesController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\EmpresasController;
 
 /*
-|------------------------------------------php --------------------------------
+|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -17,13 +20,26 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/hello/{nombre}', function($nombre){
-    return "Hola $nombre";
-});
-Route::controller(RubrosController::class)->group(function ()
+
+
+Route::controller(GestionClientesController::class)->group(function ()
 {
-Route::get('/rubros','index')->name('index');
-//Route::get('/editoriales/create','create');
-//Route::get('/editoriales/details/{id}','details')->name('detalles');
-}
-);
+    Route::get('/clientes','index')->name('index');
+    //Route::get('/editoriales/create','create');
+    //Route::get('/editoriales/details/{id}','details')->name('detalles');
+});
+
+Route::resource('empresas', EmpresasController::class);
+Route::resource('rubros', RubrosController::class);
+
+
+
+Route::get('/login',[LoginController::class,'index'])->name('login');
+Route::post('/login',[LoginController::class,'check'])->name('login.check');
+Route::get('/logout',[LoginController::class,'logout'])->name('logout');
+/*Route::controller(EmpresasController::class)->group(function ()
+{
+    Route::get('/empresas','index')->name('index');
+    //Route::get('/empresas/create','create');
+    //Route::get('/editoriales/details/{id}','details')->name('detalles');
+});*/

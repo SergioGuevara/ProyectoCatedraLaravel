@@ -25,4 +25,5 @@ class Role extends Model
 	protected $fillable = [
 		'rol'
 	];
+	
 }

@@ -34,6 +34,9 @@ class Administradore extends Model
 		'Dui' => 'int',
 		'idrol' => 'int'
 	];
+	protected $hidden = [
+		'Pass'
+	];
 
 	protected $fillable = [
 		'Nombre',
@@ -44,4 +47,10 @@ class Administradore extends Model
 		'idrol',
 		'idempresa'
 	];
+
+	public function administrador()
+    {
+        return $this->hasOne(Administradore::class);
+    }
+	
 }
