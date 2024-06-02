@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -49,4 +50,33 @@ class Cliente extends Model
 		'codigo_verificacion',
 		'verificado'
 	];
+
+	public function cuponesDisponibles($id)
+    {
+        return Cupone::select('idcupon','idcliente','fecha_compra','ofertas.titulo','ofertas.fecha_caducidad','ofertas.descripcion')
+		->join('ofertas','cupones.idoferta','=','ofertas.idoferta')
+		->where('cupones.idcliente', $id)
+		->where('cupones.idestado', '1')
+		->get();
+    }
+
+    public function cuponesCanjeados($id)
+    {
+        return Cupone::select('idcupon','idcliente','fecha_compra','ofertas.titulo','ofertas.fecha_caducidad','ofertas.descripcion')
+		->join('ofertas','cupones.idoferta','=','ofertas.idoferta')
+		->where('cupones.idcliente', $id)
+		->where('cupones.idestado', '2')
+		->get();;
+    }
+
+    public function cuponesVencidos($id)
+    {
+        return Cupone::select('idcupon','idcliente','fecha_compra','ofertas.titulo','ofertas.fecha_caducidad','ofertas.descripcion')
+		->join('ofertas','cupones.idoferta','=','ofertas.idoferta')
+		->where('cupones.idcliente', $id)
+		->where('cupones.idestado', '3')
+		->get();;
+    }
+
+
 }

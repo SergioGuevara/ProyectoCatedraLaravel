@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rubro;
 use Illuminate\Http\Request;
+use App\Models\Rubro;
 use Illuminate\Support\Facades\DB;
 
 class RubrosController extends Controller
@@ -13,10 +13,9 @@ class RubrosController extends Controller
      */
     public function index()
     {
-           //
-           $viewBag=array();
-           $viewBag['rubros']=DB::table('rubros')->get();
-           return view('Rubros.index',$viewBag);
+        $viewBag=array();
+        $viewBag['rubros']=DB::table('rubros')->get();
+        return view('Rubros.index',$viewBag);
     }
 
     /**
@@ -24,46 +23,95 @@ class RubrosController extends Controller
      */
     public function create()
     {
-        //
+
+        $viewBag=array();
+
+        $viewBag['rubros']=Rubro::all();
+        return view('Rubros.create',$viewBag);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, )
     {
-        //
+        $nombreRubro = $request->input('nombreRubro');
+        $existeRubro = Rubro::where('Rubro',$nombreRubro)->exists();
+
+        if($existeRubro){
+            $viewBag=array();
+            $viewBag['rubros']=DB::table('rubros')->get();
+            return view('Rubros.index',$viewBag);
+        }
+        else{
+            $rubro = new Rubro();
+            $rubro->Rubro = $request->input('nombreRubro');
+            $rubro->save();
+
+            // Redireccionar a una página de éxito o mostrar un mensaje de confirmación
+            $viewBag=array();
+            $viewBag['rubros']=DB::table('rubros')->get();
+            return view('Rubros.index',$viewBag);
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(string $id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, string $id)
     {
-        //
+        $rubro = Rubro::findOrFail($id);
+        $nombreRubro = $request->input('nombreRubro');
+
+        $existeRubro = Rubro::where('Rubro',$nombreRubro)->where('idrubro', '!=', $id)->exists();
+
+        if($existeRubro){
+            $viewBag=array();
+            $viewBag['rubros']=DB::table('rubros')->get();
+            return view('Rubros.index',$viewBag);
+        }
+        else{
+            $rubro->Rubro = $nombreRubro;
+            $rubro->save();
+
+            $viewBag=array();
+            $viewBag['rubros']=DB::table('rubros')->get();
+            return view('Rubros.index',$viewBag);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(string $idrubro)
     {
-        //
+        Rubro::destroy($idrubro);
+        //$this->resetAutoIncrement();
+
+        $viewBag=array();
+        $viewBag['rubros']=DB::table('rubros')->get();
+        return view('Rubros.index',$viewBag);
+
     }
+
+    /*
+    public function resetAutoIncrement()
+    {
+        $tableName = 'rubros';
+        $primaryKey = 'idrubro';
+
+        DB::statement("ALTER TABLE {$tableName} AUTO_INCREMENT = 1;");
+        DB::statement("SET @num := 0;");
+        DB::statement("UPDATE {$tableName} SET {$primaryKey} = @num := (@num + 1);");
+        DB::statement("ALTER TABLE {$tableName} AUTO_INCREMENT = 1;");
+    }*/
+
+
 }

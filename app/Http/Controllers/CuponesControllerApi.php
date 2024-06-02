@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cupone;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class CuponesControllerApi extends Controller
 {
@@ -41,12 +41,12 @@ class CuponesControllerApi extends Controller
         $cupones=DB::table('ofertas')
         ->join('cupones','cupones.idoferta','=','ofertas.idoferta')
         ->join('estados_cupones','estados_cupones.idestado','=','cupones.idestado')
-        ->select('cupones.idcupon','titulo','precio_regular','precio_oferta','fecha_caducidad','descripcion','estados_cupones.estado')
+        ->join('clientes','clientes.idcliente','=','cupones.idcliente')
+        ->select('cupones.idcupon','clientes.dui','titulo','precio_regular','precio_oferta','fecha_caducidad','descripcion','estados_cupones.estado')
         ->where('idcupon',$id)
         ->get();
         return $cupones;
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -61,10 +61,13 @@ class CuponesControllerApi extends Controller
     public function update(Request $request, $id)
     {
         //
-        $cupoes  = ['idcupon'=>$id,
-        'idestado'=>$request->idestado];
-        DB::update('UPDATE cupones SET idestado=:idestado
-        where idcupon=:idcupon', $cupoes);
+        $state = 2;
+        $cupones=DB::table('cupones')
+        ->where('idcupon',$id)
+        ->update(['idestado' => $state]);
+
+        return $cupones;
+        
     }
 
     /**
